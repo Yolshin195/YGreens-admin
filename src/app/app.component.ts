@@ -10,11 +10,8 @@ import { UserService } from './service/user.service';
 export class AppComponent implements OnInit {
   title = 'ygreens-admin';
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, public userService: UserService) { }
 
   ngOnInit(): void {
-    if (!this.userService.authenticated) {
-      this.router.navigateByUrl("/login");
-    }
   }
 }

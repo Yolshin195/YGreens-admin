@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 export interface Credential {
@@ -39,7 +40,7 @@ export class UserService {
   authenticated: boolean = false;
   user?: User;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private router: Router) { 
     this.restore();
   }
 
@@ -55,7 +56,7 @@ export class UserService {
         this.authenticated = true;
         this.user = user;
         if (credential.isSave) {
-          this.save(authorization);
+          this.saveLocalStorage(authorization);
         }
       } else {
         this.authenticated = false;
@@ -99,6 +100,7 @@ export class UserService {
         if (user) {
           this.authenticated = true;
           this.user = user;
+          //this.router.navigateByUrl("/");
         } else {
           this.authenticated = false;
           this.user = undefined;
@@ -108,7 +110,7 @@ export class UserService {
     }
   }
 
-  save(authorization: string): void {
+  saveLocalStorage(authorization: string): void {
     localStorage.setItem("authorization", authorization);
   }
 
